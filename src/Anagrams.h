@@ -1,5 +1,5 @@
 #define TABLE_SIZE 65536
-#define MAX_WORD_LENGTH 20
+#define MAX_WORD_LENGTH 100
 
 //typedefs
 struct{

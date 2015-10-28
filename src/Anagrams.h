@@ -1,21 +1,5 @@
 #define TABLE_SIZE 65536
-#define MAX_WORD_LENGTH 100
-
-//typedefs
-struct{
-	char string[MAX_WORD_LENGTH];
-} typedef t_anagram;
-
-struct{
-	t_anagram *anagrams;
-	int size;
-} typedef t_entry;
-
-struct{
-	t_entry *entries;
-	int size;
-} typedef t_table;
-
+#include "QuickSort.h"
 //t_table manipulation functions
 void initTable(t_table *t);
 void addWordToTable(t_table *t, char *word);

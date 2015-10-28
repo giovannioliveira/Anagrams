@@ -8,22 +8,30 @@
 #include "QuickSort.h"
 
 void quickSort(t_entry *entry){
+
+	if(entry->size <= 1){
+		return;
+	}
+
 	srand(time(NULL));
-	_quickSort(entry->anagrams,0,entry->size);
+	_quickSort(entry->anagrams,0,entry->size-1);
+
 }
 
 
 void _quickSort(t_anagram *anagrams, int l, int r){
 
-	if(l<=r){
+	if(r<=l){
 		return;
 	}
 
 	choosePivot(anagrams,l,r);
+
 	int pivot = partition(anagrams,l,r);
 
 	_quickSort(anagrams,l,pivot-1);
-	_quickSort(anagrams,l,pivot+1);
+	_quickSort(anagrams,pivot+1,r);
+
 }
 
 void choosePivot(t_anagram *anagrams, int l, int r){

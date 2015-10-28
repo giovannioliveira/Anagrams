@@ -13,7 +13,6 @@
 #include <stdlib.h>
 
 #include "Anagrams.h"
-
 //english letter sorted by frequency (desc): ETAOINSRHDLUCMFYWGPBVKXQJZ (source: http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
 //26st primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101]
 //defining the i-th smallest prime to the i-th most used letter to avoid hash conflicts
@@ -78,9 +77,8 @@ void printAnagrams(t_table *t, char *word){
 
 	t_entry anag;
 	getAnagrams(t, &anag, word);
-	
-	//using native implementation of quick sort to sort string by strcmp criteria
-	qsort(anag.anagrams, anag.size, sizeof(t_anagram), strCmp);
+
+	quickSort(&anag);
 	
 	//print the sorted array of anagrams
 	int i;
@@ -89,18 +87,6 @@ void printAnagrams(t_table *t, char *word){
 	}
 
 	printf("\n");
-
-}
-
-//just interfacing with native strcmp
-int strCmp(const void *str1, const void *str2){
-
-    const char *rec1 = str1;
-    const char *rec2 = str2;
-
-    int cmp = strcmp(rec1, rec2);
-
-    return cmp;
 
 }
 

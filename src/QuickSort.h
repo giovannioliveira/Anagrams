@@ -1,6 +1,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define MEDIAN_OF 3
 #define MAX_WORD_LENGTH 100

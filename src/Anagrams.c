@@ -9,21 +9,21 @@
  */
 #include "Anagrams.h"
 
-int main(){
+int main() {
 
 	t_table t;
 	initTable(&t);
 
 	char tmp[MAX_WORD_LENGTH];
-	while(scanf("%s",tmp) == 1){
-		addWordToTable(&t,tmp);
+	while (scanf("%s", tmp) == 1) {
+		addWordToTable(&t, tmp);
 	}
-	
+
 	//clean stdin buffer to avoid bugs
 	freopen("/dev/tty", "r", stdin);
 
-	while(scanf("%s",tmp) == 1){
-		printAnagrams(&t,tmp);
+	while (scanf("%s", tmp) == 1) {
+		printAnagrams(&t, tmp);
 	}
 
 	return 0;
@@ -34,38 +34,39 @@ int main(){
 //					HASH-RELATED FUNCTIONS					   //
 //-------------------------------------------------------------//
 
-void initTable(t_table *t){
+void initTable(t_table *t) {
 
 	//init table with TABLE_SIZE t_entries
-	t->entries = (t_entry*) calloc(TABLE_SIZE,sizeof(t_entry));
+	t->entries = (t_entry*) calloc(TABLE_SIZE, sizeof(t_entry));
 	t->size = TABLE_SIZE;
 
 }
 
-void addWordToTable(t_table *t, char *word){
+void addWordToTable(t_table *t, char *word) {
 
 	int hashcode = hashCode(word);
 
 	t_entry *e = &t->entries[hashcode];
-	addWordToEntry(e,word);
+	addWordToEntry(e, word);
 
 }
 
-void addWordToEntry(t_entry *e, char *word){
-	
+void addWordToEntry(t_entry *e, char *word) {
+
 	//avoid segmentation fault in realloc
-	if(e->size == 0){
+	if (e->size == 0) {
 		e->anagrams = NULL;
 	}
-	
-	e->anagrams = (t_anagram*) realloc(e->anagrams, (e->size + 1)*sizeof(t_anagram));
+
+	e->anagrams = (t_anagram*) realloc(e->anagrams,
+			(e->size + 1) * sizeof(t_anagram));
 	strcpy(e->anagrams[e->size].string, word);
 
 	e->size++;
 
 }
 
-void printAnagrams(t_table *t, char *word){
+void printAnagrams(t_table *t, char *word) {
 
 	t_entry anag;
 
@@ -73,9 +74,9 @@ void printAnagrams(t_table *t, char *word){
 	getAnagrams(t, &anag, word);
 
 	quickSort(&anag);
-	
+
 	int i;
-	for(i=0; i<anag.size; i++){
+	for (i = 0; i < anag.size; i++) {
 		printf("%s ", anag.anagrams[i].string);
 	}
 
@@ -83,17 +84,18 @@ void printAnagrams(t_table *t, char *word){
 
 }
 
-int isAnagram(char *str1, char *str2){
+int isAnagram(char *str1, char *str2) {
 
 	//remove cases when string has different size
-	if(strlen(str1)!=strlen(str2)){
+	if (strlen(str1) != strlen(str2)) {
 		return 0;
 	}
 
 	//if both strings have the same size, they're anagrams if have same char count too
 	int i;
-	for(i=0; i<strlen(str1); i++){
-		if(countCharInString(str1[i],str1)!=countCharInString(str1[i],str1)){
+	for (i = 0; i < strlen(str1); i++) {
+		if (countCharInString(str1[i], str1)
+				!= countCharInString(str1[i], str1)) {
 			return 0;
 		}
 	}
@@ -102,13 +104,13 @@ int isAnagram(char *str1, char *str2){
 
 }
 
-int countCharInString(char c, char* str){
+int countCharInString(char c, char* str) {
 
 	int count = 0;
 
 	int i;
-	for(i=0; i<strlen(str); i++){
-		if(str[i] == c){
+	for (i = 0; i < strlen(str); i++) {
+		if (str[i] == c) {
 			count++;
 		}
 	}
@@ -117,39 +119,39 @@ int countCharInString(char c, char* str){
 
 }
 
-void getAnagrams(t_table *t, t_entry *result, char *word){
+void getAnagrams(t_table *t, t_entry *result, char *word) {
 
 	t_entry e = t->entries[hashCode(word)];
 	result->size = 0;
 
 	int i;
-	for(i=0; i<e.size; i++){
+	for (i = 0; i < e.size; i++) {
 		//search for pathological data in entry
-		if(isAnagram(word,e.anagrams[i].string)){
+		if (isAnagram(word, e.anagrams[i].string)) {
 			addWordToEntry(result, e.anagrams[i].string);
 		}
 	}
 
 }
 
-int hashCode(char* word){
+int hashCode(char* word) {
 
 	unsigned long long int result = 1;
 
 	//using number theory properties, transforms a word into a prime product to be used as key
 	int i;
-	for(i=0; i<strlen(word); i++){
+	for (i = 0; i < strlen(word); i++) {
 		//modular operation to support U(n) that can cause "very rarely" conflicts
 		//these conflicts will be treated by isAnagram
-		result = (result*encodeChar(word[i])) % TABLE_SIZE;
+		result = (result * encodeChar(word[i])) % TABLE_SIZE;
 	}
 
 	return result;
 }
 
-char encodeChar(char c){
+char encodeChar(char c) {
 
-	return dictionary[c-97];
+	return dictionary[c - 97];
 
 }
 
@@ -224,7 +226,7 @@ void _choosePivot(t_anagram *anagrams, int l, int r) {
 	}
 
 	//places the pivot in index l
-	_swap(anagrams,l,randIndexes[MEDIAN_OF/2]);
+	_swap(anagrams, l, randIndexes[MEDIAN_OF / 2]);
 
 	return;
 }

@@ -2,7 +2,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
-
 #define MEDIAN_OF 3
 #define MAX_WORD_LENGTH 100
 struct{
@@ -21,7 +20,7 @@ struct{
 
 void quickSort(t_entry *entry);
 void _quickSort(t_anagram *anagrams, int l, int r);
-void choosePivot(t_anagram *anagrams, int l, int r);
-int partition(t_anagram *anagrams, int l, int r);
-void swap(t_anagram *anagrams, int i ,int j);
+void _choosePivot(t_anagram *anagrams, int l, int r);
+int _partition(t_anagram *anagrams, int l, int r);
+void _swap(t_anagram *anagrams, int i ,int j);
 
